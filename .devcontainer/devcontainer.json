@@ -7,6 +7,7 @@
 
 	"features": {
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+<<<<<<< HEAD
 			"moby": true,
 			"installDockerBuildx": true,
 			"installDockerComposeSwitch": true,
@@ -20,12 +21,24 @@
 		"ghcr.io/devcontainers-extra/features/poetry:2": {
 			"version": "latest"
 		}
+=======
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
+		"ghcr.io/devcontainers/features/python:1": {},
+		"ghcr.io/devcontainers-extra/features/poetry:2": {}
+>>>>>>> 6b1602d (Add Session 01)
 	},
 
 	// Use this environment variable if you need to bind mount your local source code into a new container.
 	"remoteEnv": {
+<<<<<<< HEAD
 		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
 		"POETRY_VIRTUALENVS_IN_PROJECT":true
+=======
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+>>>>>>> 6b1602d (Add Session 01)
 	}
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
