@@ -2,7 +2,7 @@ def sum_of_numbers(*args):
     if all(isinstance(i, (int, float)) for i in args):
         return sum(args)
     else:
-        return "All arguments must be numeric"
+        return "All arguments must be numeric."
 
 
 def filter_dict_by_threshold(data, **kwargs):
