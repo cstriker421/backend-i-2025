@@ -11,7 +11,10 @@ def filter_dict_by_threshold(data, **kwargs):
     if not isinstance(data, dict):
         return "The first argument must be a dictionary"
     
-    return {k: v for k, v in data.items() if v > threshold}
+    # Filters the dictionary based on the threshold and storing the result
+    filtered_data = {k: v for k, v in data.items() if v > threshold}
+    
+    return filtered_data
 
 
 # Example usage provided by ChatGPT
@@ -25,5 +28,21 @@ if __name__ == "__main__":
         'c': 8,
         'd': 1,
     }
-    print(filter_dict_by_threshold(sample_data, threshold=3))  # {'a': 5, 'c': 8}
-    print(filter_dict_by_threshold(sample_data, threshold=10))  # {}
+    
+    filtered_data = filter_dict_by_threshold(sample_data, threshold=3)
+    
+    # Prints individual values from the filtered dictionary
+    if isinstance(filtered_data, dict):  # Only prints if the return is a dictionary
+        for key, value in filtered_data.items():
+            print(f"{key}: {value}")
+    else:
+        print(filtered_data)
+    
+    filtered_data_high = filter_dict_by_threshold(sample_data, threshold=10)
+    
+    # Prints individual values from the second filtered dictionary
+    if isinstance(filtered_data_high, dict):
+        for key, value in filtered_data_high.items():
+            print(f"{key}: {value}")
+    else:
+        print(filtered_data_high)

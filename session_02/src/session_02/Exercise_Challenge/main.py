@@ -3,26 +3,17 @@ class UserRegistrationSystem:
         self.users = []
 
     def register_user(self, *args, **kwargs):
-        """
-        Registers a user with dynamic details using *args and **kwargs.
-        
-        *args: Variable length arguments like (name, email)
-        **kwargs: Keyword arguments for additional details like (age, address)
-        """
         if len(args) < 2:
             return "Please provide at least a name and an email address."
         
-        # Creates a user dictionary with basic details from args
         user = {
             'name': args[0],
             'email': args[1]
         }
 
-        # Adds additional details from kwargs
         for key, value in kwargs.items():
             user[key] = value
-        
-        # Adds the user to the list using list comprehension
+
         self.users.append(user)
         return f"User {args[0]} registered successfully."
 
