@@ -8,7 +8,8 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "requests (>=2.32.3,<3.0.0)"
+    "requests (>=2.32.3,<3.0.0)",
+    "pytest (>=8.3.5,<9.0.0)"
 ]
 
 [tool.poetry]
@@ -21,3 +22,6 @@ pytest = "^8.3.5"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[project.scripts]
+server = "session_10.exercise_with_challenge.http_server:start"
