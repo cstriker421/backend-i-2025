@@ -1,5 +1,6 @@
 import typer
-from bot import run_bot
+import os
+from bot import run_bot, send_test_message  # Import send_test_message
 
 app = typer.Typer()
 
@@ -11,27 +12,30 @@ def start():
     run_bot()
 
 @app.command()
-def send_test_message(token: str, channel_id: int, message: str):
+def send_test_message_command(
+    channel_id: int = typer.Option(..., help="ID of the channel to send the message to"),
+    message: str = typer.Option(..., help="The message to send to the channel")
+):
     """
     Send a test message to a specific Discord channel using the provided token.
     """
     import discord
     from discord.ext import commands
-    import asyncio
 
-    bot = commands.Bot(command_prefix="!")
+    bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
 
     @bot.event
     async def on_ready():
-        channel = bot.get_channel(channel_id)
-        if channel:
-            await channel.send(message)
-            print(f"Test message sent to channel {channel_id}: {message}")
-        else:
-            print("Invalid channel ID")
+        # Use the provided channel_id to send the message to the given channel
+        await send_test_message(channel_id, message)
+        print(f"Test message sent to channel {channel_id}: {message}")
         await bot.close()
 
-    bot.run(token)
+    token = os.getenv("DISCORD_TOKEN")
+    if not token:
+        raise ValueError("No Discord token found in environment variables.")
+        
+    bot.run(token)  # Now we pass the token explicitly
 
 if __name__ == "__main__":
     app()
