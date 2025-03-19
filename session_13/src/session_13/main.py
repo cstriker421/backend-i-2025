@@ -2,14 +2,12 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlmodel import SQLModel, Field, create_engine, Session, select
 import logging
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-# Define a sample model for an item
-class Item(SQLModel, table=True):
+class Item(SQLModel, table=True): # Defines a sample model for an item
     id: int = Field(default=None, primary_key=True)
     name: str
     description: str = None

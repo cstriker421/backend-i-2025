@@ -1,8 +1,14 @@
-start:
-	COMPOSE_BAKE=True docker compose up -d --force-recreate --build
+build:
+	docker compose build
+
+start: build
+	docker compose up -d --force-recreate --build
 
 down:
 	docker compose down --volumes
+
+test: build
+	docker compose run --rm --entrypoint="" api poetry run pytest -vvv
 
 logs:
 	docker compose logs -f
