@@ -4,6 +4,10 @@ services:
     command: session_12.main:api --host 0.0.0.0 --reload
     ports:
       - 8000:8000
+    secrets:
+      -
+    env_file:
+      - .env
     environment:
       DB_USER: todo_user
       DB_PASS: qwerty
