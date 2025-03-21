@@ -1,5 +1,5 @@
-from turtle import title
 from django.db import models
+from django.contrib.auth import get_user_model
 
 class Task(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -7,6 +7,7 @@ class Task(models.Model):
     description = models.TextField()
     due_date = models.DateField(null=False)
     is_done = models.BooleanField(null=False,blank=False,default=False)
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = "todo_tasks"
