@@ -1,18 +1,29 @@
-from django.views.generic import ListView, TemplateView, FormView
+from django.shortcuts import redirect
+from django.views.generic import ListView, TemplateView, FormView, CreateView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
+
+from todo.forms import TaskForm
 from todo.models import Task
-from django.contrib.auth import get_user
 
 #def index(request):
 #    tasks = Task.objects.all()
 #    return render(request,"todo/index.html", {"foo":"BAR", "tasks":tasks})
 
-class TaskListView(ListView):
+class TaskListView(LoginRequiredMixin, CreateView):
     login_url = "/signin"
-    model = Task
+    success_url = "/tasks"
+    form_class = TaskForm
+    template_name = "todo/task_list.html"
 
-    def get_queryset(self):
-        return Task.objects.filter(user = self.request.user).all()
+    def get_context_data(self, **kwargs):
+        kwargs['object_list'] = Task.objects.filter(user=self.request.user).all()
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class IndexView(TemplateView):
     http_method_name = ['get']
@@ -26,3 +37,7 @@ class SignUpView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+    
+def logout_view(request):
+    if request == "POST":
+            logout(request)

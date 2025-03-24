@@ -1,0 +1,14 @@
+FROM python:3.12-slim
+
+RUN pip install poetry
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock /app/
+
+COPY . .
+
+RUN poetry install -n
+EXPOSE 8000
+ENTRYPOINT [ "executable," "run" ]
+CMD [ "uvicorn","djproject.wsgi:application","--host","0.0.0.0","--port","8000"]
