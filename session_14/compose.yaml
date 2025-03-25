@@ -5,13 +5,16 @@ services:
       context: .
     ports:
       - 8000:8000
+    env_file:
+      - .env
+    depends_on:
+      - database
   database:
-    image: postgres:17
+    image: postgres:17-alpine
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: qwerty
-      POSTGRES_DATABSE: dj_db
+    env_file:
+      - .env
   adminer:
     image: adminer:latest
     ports:

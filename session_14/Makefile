@@ -16,3 +16,12 @@ new-app:
 
 tests:
 	poetry run pytest -vvv
+
+py3clean:
+	py3clean .
+
+compose.start:
+	docker compose up --build --force-recreate
+
+compose.migrate:
+	docker compose run -rm web poetry run python manage.py migrate
