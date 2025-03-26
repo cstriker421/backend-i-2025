@@ -16,7 +16,7 @@ class Book(models.Model):
     def __str__(self):
         return f"{self.title} by {self.author}"
     
-class ReadingSessions(models.Model):
+class ReadingSession(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='sessions')
     date = models.DateField(auto_now_add=True)
     duration_minutes = models.PositiveBigIntegerField()
