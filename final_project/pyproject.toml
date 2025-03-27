@@ -1,7 +1,7 @@
 [project]
-name = "final-project"
+name = "book-tracker"
 version = "0.1.0"
-description = ""
+description = "A basic Django and Typer-based app that allows users to track books, update their status with them, give them ratings, and track reading time via a browser and CLI."
 authors = [
     {name = "cstriker421",email = "cstriker421@gmail.com"}
 ]
@@ -9,7 +9,9 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "django (>=5.1.7,<6.0.0)",
-    "typer (>=0.15.2,<0.16.0)"
+    "typer (>=0.15.2,<0.16.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "dj-database-url (>=2.3.0,<3.0.0)"
 ]
 
 

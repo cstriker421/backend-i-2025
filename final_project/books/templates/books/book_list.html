@@ -1,0 +1,23 @@
+<!-- books/templates/books/book_list.html -->
+ <!DOCTYPE html>
+ <html>
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h1>📚 Your Books 📚</h1>
+    {% if books %}
+        <ul>
+            {% for book in books %}
+                <li>
+                    <a href ="{% url 'book-detail' book.id %}">
+                        <strong>{{ book.title }}</strong> 
+                    </a> by {{ book.author }} ({{ book.get_status_display }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books yet!</p>
+    {% endif %}
+</body>
+</html>

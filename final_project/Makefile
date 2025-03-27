@@ -10,6 +10,22 @@ ID=1
 MINUTES=30
 NOTES=""
 
+# Docker helpers
+docker-up:
+	@docker compose up --build
+
+docker-down:
+	@docker compose down
+
+docker-shell:
+	@docker compose run web sh
+
+docker-migrate:
+	@docker compose run web python manage.py migrate
+
+docker-superuser:
+	@docker compose run web python manage.py createsuperuser
+
 # Django Management
 .PHONY: runserver migrate makemigrations createsuperuser
 
