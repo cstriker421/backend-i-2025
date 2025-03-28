@@ -12,41 +12,44 @@ NOTES=""
 
 # Docker helpers
 docker-up:
-	@docker compose up --build
+	docker compose up --build
 
 docker-down:
-	@docker compose down
+	docker compose down
 
 docker-shell:
-	@docker compose run web sh
+	docker compose run web sh
 
 docker-migrate:
-	@docker compose run web python manage.py migrate
+	docker compose run --rm web poetry run python manage.py migrate
+
+docker-makemigrations:
+	docker compose run --rm web poetry run python manage.py makemigrations
 
 docker-superuser:
-	@docker compose run web python manage.py createsuperuser
+	docker compose run web poetry run python manage.py createsuperuser
 
 # Django Management
 .PHONY: runserver migrate makemigrations createsuperuser
 
 runserver:
-	@python manage.py runserver
+	python manage.py runserver
 
 migrate:
-	@python manage.py migrate
+	python manage.py migrate
 
 makemigrations:
-	@python manage.py makemigrations
+	python manage.py makemigrations
 
 createsuperuser:
-	@python manage.py createsuperuser
+	python manage.py createsuperuser
 
 # Book CLI commands
 book-cli:
-	@python -m cli.cli
+	python -m cli.cli
 
 book-add:
-	@python -m cli.cli book add \
+	python -m cli.cli book add \
 		--title=$(BOOK) \
 		--author=$(AUTHOR) \
 		--genre=$(GENRE) \
@@ -54,13 +57,17 @@ book-add:
 		--rating=$(RATING)
 
 book-list:
-	@python -m cli.cli book list
+	python -m cli.cli book list
 
 book-summary:
-	@python -m cli.cli book summary
+	python -m cli.cli book summary
 
 book-mark-read:
 	@python -m cli.cli book mark-read $(ID)
 
 book-log:
-	@python -m cli.cli book log-reading $(ID) $(MINUTES) --notes=$(NOTES)
+	python -m cli.cli book log-reading $(ID) $(MINUTES) --notes=$(NOTES)
+
+# Misc.
+test:
+	python -m pytest

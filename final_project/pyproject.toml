@@ -5,15 +5,28 @@ description = "A basic Django and Typer-based app that allows users to track boo
 authors = [
     {name = "cstriker421",email = "cstriker421@gmail.com"}
 ]
-readme = "README.md"
+readme = "README.MD"
 requires-python = ">=3.12"
 dependencies = [
     "django (>=5.1.7,<6.0.0)",
     "typer (>=0.15.2,<0.16.0)",
     "python-dotenv (>=1.1.0,<2.0.0)",
-    "dj-database-url (>=2.3.0,<3.0.0)"
+    "dj-database-url (>=2.3.0,<3.0.0)",
+    "psycopg2-binary (>=2.9,<3.0)",
+    "uvicorn (>=0.34.0,<0.35.0)"
 ]
 
+[tool.poetry]
+packages = [{include = "booktracker"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-django = "^4.10.0"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "booktracker.settings"
+python_files = ["test_*.py"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
