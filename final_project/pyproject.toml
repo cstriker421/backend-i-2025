@@ -26,7 +26,8 @@ pytest-django = "^4.10.0"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "booktracker.settings"
-python_files = ["test_*.py"]
+python_files = ["tests/test_*.py"]
+pythonpath = "."
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

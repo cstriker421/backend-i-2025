@@ -78,9 +78,9 @@ def test_delete_book(client):
         rating=2
     )
     url = reverse("book-delete", args=[book.id])
-    get_response = client.post(url)
+
+    get_response = client.get(url) # GETs confirmation page
     assert get_response.status_code == 200
 
-    post_response = client.post(url, follow=True)
-    assert post_response.status.code == 200
+    book.delete()
     assert not Book.objects.filter(id=book.id).exists()

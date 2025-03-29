@@ -1,4 +1,7 @@
+import logging
 from django.db import models
+
+logger = logging.getLogger(__name__)
 
 class Book(models.Model):
     STATUS_CHOICES = [
@@ -15,6 +18,8 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.author}"
+        logger.debug(f"Book string representation called: {result}")
+        return result
     
 class ReadingSession(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='sessions')
@@ -24,3 +29,5 @@ class ReadingSession(models.Model):
 
     def __str__(self):
         return f"{self.book.title} - {self.duration_minutes} min on {self.date}"
+        logger.debug(f"ReadingSession string representation called: {result}")
+        return result

@@ -10,15 +10,39 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+import logging.config
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
 
+LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "DEBUG")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name}: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -30,7 +54,6 @@ SECRET_KEY = "django-insecure-b=)21_ffz*%m1ay1#2&u^rdpdcet61eck$!(73xvh2j-+ilu4q
 DEBUG = os.getenv("DJANGO_DEBUG", False)
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -59,7 +82,7 @@ ROOT_URLCONF = "booktracker.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -86,7 +109,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv("POSTGRES_DB"),
-        'USER': os.getenv("POSTGRES_USERNAME"),
+        'USER': os.getenv("POSTGRES_USER"), # USERNAME doens't work at home workstation
         'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
         'HOST': os.getenv("POSTGRES_HOST"),
         'PORT': os.getenv("POSTGRES_PORT")
