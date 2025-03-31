@@ -1,28 +1,20 @@
+version: "3.9"
+
 services:
-  api:
+  app:
     build: .
-    command: session_12.main:api --host 0.0.0.0 --reload
+    container_name: fastapi_app
+    volumes:
+      - ./logs:/app/logs  # Persistent logs
     ports:
-      - 8000:8000
-    secrets:
-      -
-    env_file:
-      - .env
-    environment:
-      DB_USER: todo_user
-      DB_PASS: qwerty
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: todo_db
-  db:
+      - "8000:8000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
     ports:
-      - 5432:5432
-    image: postgres:17-alpine
-    environment:
-      POSTGRES_USER: todo_user
-      POSTGRES_PASSWORD: qwerty
-      POSTGRES_DB: todo_db
-  adminer:
-    image: adminer
-    ports:
-      - 8080:8080
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app

@@ -8,4 +8,7 @@ logs:
 	docker compose logs -f
 
 api-logs:
-	docker compose logs -f api
+	docker compose logs -f app
+
+test:
+	docker compose run --rm app pytest -v

@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:17
+    container_name: session_13_db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -10,9 +11,10 @@ services:
     ports:
       - "5432:5432"
 
-  web:
+  api:
     build: .
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    container_name: session_13_api
+    command: uvicorn src.session_13.exercise_with_challenge.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/app
     ports:

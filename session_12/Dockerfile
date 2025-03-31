@@ -1,13 +1,19 @@
-FROM python:3.12-slim
+FROM python:3.10-slim
 
-WORKDIR /workspace
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock* /app/
 
 RUN pip install poetry
 
-COPY . .
+RUN poetry config virtualenvs.create false && poetry install
 
-RUN poetry install -nq
+COPY ./src/session_12/exercise_with_challenge /app/
 
-ENTRYPOINT [ "poetry", "run", "uvicorn" ]
+COPY ./tests /app/tests
 
-CMD [ "session_12.main:api", "--host", "0.0.0.0" ]
+RUN mkdir -p /app/logs
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

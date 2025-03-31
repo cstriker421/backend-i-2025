@@ -1,17 +1,20 @@
 build:
 	docker compose build
 
-start: build
+start:
 	docker compose up -d --force-recreate --build
 
 down:
 	docker compose down --volumes
-
-test: build
-	docker compose run --rm --entrypoint="" api poetry run pytest -vvv
 
 logs:
 	docker compose logs -f
 
 api-logs:
 	docker compose logs -f api
+
+db-logs:
+	docker compose logs -f db
+
+test:
+	docker compose run --rm api poetry run pytest -v
