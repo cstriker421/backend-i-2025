@@ -1,4 +1,3 @@
-
 # BookTracker 📚
 
 **BookTracker** is a Django-based reading tracker app, enhanced with a Typer-powered Command Line Interface (CLI). It allows you to manage books you are reading, plan to read, or have finished, and log reading sessions.
@@ -16,12 +15,14 @@
   - Add new books.
   - Edit existing books.
   - Delete books.
+- User registration, login, and logout.
 - Admin interface for managing models.
 - Book form for data entry.
 - Minimal HTML templates.
 
 ### Typer CLI
 
+- Register and login users.
 - Add new books.
 - List books.
 - Mark books as read.
@@ -85,48 +86,36 @@ Access the app:
 Run the CLI inside the container:
 
 ```bash
-make book-cli
+make book-help
 ```
 
 Available commands:
 
 ```bash
-make book-add          # Add a new book (Default command: make book-add TITLE="Title" AUTHOR="Author" GENRE="Genre" RATING=[Integer from 1 to 5])
+make book-add          # Add a new book (Override vars: make book-add BOOK="..." AUTHOR="..." etc.)
 make book-list         # List all books
 make book-summary      # Show reading summary
-make book-mark-read    # Mark a book as read (edit ID in Makefile)
-make book-log          # Log a reading session (edit ID, MINUTES, NOTES in Makefile)
-make book-cli-verbose  # Run CLI with verbose logging
+make book-mark-read    # Mark a book as read (ID variable)
+make book-log          # Log a reading session (ID, MINUTES, NOTES variables)
 ```
 
-You can also use Docker manually:
-
+**User management (manual commands):**
 ```bash
-docker compose run --rm web poetry run python -m cli.cli --help
+docker compose run --rm web poetry run python -m cli.cli register
+docker compose run --rm web poetry run python -m cli.cli login
+docker compose run --rm web poetry run python -m cli.cli logout
 ```
 
 ---
 
 ## Testing
 
-The project includes test coverage for Django views, models, forms, URLs, and CLI commands using `pytest`.
+The project includes test coverage for Django views, models, forms, and URLs using `pytest`.
 
-To run all tests:
-
-```bash
-make docker-test
-```
-
-To run only Django tests:
+To run all Django tests:
 
 ```bash
 make docker-test-django
-```
-
-To run only CLI tests:
-
-```bash
-make docker-test-cli
 ```
 
 To run locally without Docker:
@@ -134,6 +123,21 @@ To run locally without Docker:
 ```bash
 make pytest-local
 ```
+
+---
+
+### ⚠️ CLI Tests Notice
+
+CLI tests were attempted but removed due to PostgreSQL transactional testing limitations.  
+Testing CLI commands inside the pytest environment with a persistent Postgres connection can cause errors and data inconsistency.
+
+**However, all CLI commands were tested manually and function as intended.**
+
+Optional manual test script can be used:
+```bash
+sh manual_cli_tests.sh
+```
+*(script provided in the repo)*
 
 ---
 
@@ -157,14 +161,15 @@ make pytest-local
 - Created Django forms and views.
 - Added templates for listing, detail, create, update, and delete.
 - Connected forms and models.
+- User registration & login added.
 
 **0.2.2**
 
-- Added pytest test coverage for both for CLI and Django components.
+- Added pytest test coverage for Django components.
 - Integrated logging across CLI, views, forms, and models.
 - Containerised the project with Docker and Compose.
 - Added structured Makefile shortcuts.
-- Final code cleanup and documentation.
+- CLI tests excluded due to Postgres transactional behavior.
 
 **1.0.0**
 

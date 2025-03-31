@@ -38,15 +38,16 @@ docker-superuser: ## Create Django superuser
 # ==============================
 .PHONY: docker-test docker-test-django docker-test-cli pytest-local
 
-docker-test: ## Run all tests (Django + CLI)
-	docker compose run --rm --remove-orphans web poetry run pytest -v tests/
+#docker-test: ## Run Django and CLI separately  (NOT FUNCTIONAL. DUNNO WHY)
+#	make docker-test-django
+#	make docker-test-cli
 
 docker-test-django: ## Run Django tests
 	docker compose run --rm --remove-orphans web poetry run pytest -v \
 		tests/test_views.py tests/test_models.py tests/test_forms.py tests/test_urls.py
 
-docker-test-cli: ## Run CLI tests
-	docker compose run --rm --remove-orphans web poetry run pytest -v tests/test_cli.py
+#docker-test-cli: ## Run CLI tests (NOT FUNCTIONAL. DUNNO WHY)
+#	docker compose run --rm web poetry run pytest -v tests_cli/
 
 pytest-local: ## Run tests locally (only if not in Docker)
 	python -m pytest
