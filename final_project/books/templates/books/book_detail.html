@@ -1,19 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ book.title }}</title>
-    </head>
-    <body>
-        <h1>{{ book.title }}</h1>
-        <p><strong>Author:</strong> {{ book.author }}</p>
-        <p><strong>Genre:</strong> {{ book.genre }}</p>
-        <p><strong>Status:</strong> {{ book.get_status_display }}</p>
-        {% if book.rating %}
-            <p><strong>Rating:</strong> {{ book.rating }}/5</p>
-        {% endif %}
+{% extends "base.html" %}
 
-        <a href="{% url 'book-edit' book.id %}">✏️ Edit this book</a><br>
-        <a href="{% url 'book-delete' book.id %}">🗑️ Remove this book</a>
-        <a href="{% url "book-list" %}">← Back to list</a>
-    </body>
-</html>
+{% block content %}
+<h1>{{ book.title }}</h1>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Genre:</strong> {{ book.genre }}</p>
+<p><strong>Status:</strong> {{ book.get_status_display }}</p>
+{% if book.rating %}
+    <p><strong>Rating:</strong> {{ book.rating }}/5</p>
+{% endif %}
+
+<a href="{% url 'book-edit' book.id %}">✏️ Edit this book</a><br>
+<a href="{% url 'book-delete' book.id %}">🗑️ Remove this book</a>
+<a href="{% url "book-list" %}">← Back to list</a>
+
+<hr>
+
+<h2>📖 Reading Sessions</h2>
+
+{% if sessions %}
+    <ul>
+        {% for session in sessions %}
+            <li>
+                🗓️ {{ session.date }} — ⏱️ {{ session.duration_minutes }} min
+                {% if session.notes %}
+                    <br>📝 Notes: {{ session.notes }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No reading sessions logged yet.</p>
+{% endif %}
+
+<h3>➕ Log a Reading Session</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ session_form.as_p }}
+    <button type="submit">Log Session</button>
+</form>
+{% endblock %}

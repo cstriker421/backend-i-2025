@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Add a Book</title>
-    </head>
-    <body>
-        <h1>Add a New Book</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">
-                {% if book.pk %}
-                    Update Book
-                {% else %}
-                    Add Book
-                {% endif %}
-            </button>
-        </form>
-        <a href="{% url "book-list" %}">← Back to book list</a>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% if book.pk %}Edit Book{% else %}Add a New Book{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">
+        {% if book.pk %}
+            Update Book
+        {% else %}
+            Add Book
+        {% endif %}
+    </button>
+</form>
+<a href="{% url "book-list" %}">← Back to book list</a>
+{% endblock %}

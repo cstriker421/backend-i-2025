@@ -1,10 +1,26 @@
-<!-- This is a dummy base to ensure that pytest works for a GET request. Not used by app. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Book Tracker</title>
 </head>
 <body>
+    <header>
+        {% if user.is_authenticated %}
+            <p>👋 Logged in as: {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a></p>
+        {% endif %}
+        <hr>
+    </header>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li style="color: green;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     {% block content %}{% endblock %}
 </body>
 </html>

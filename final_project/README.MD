@@ -91,12 +91,12 @@ make book-cli
 Available commands:
 
 ```bash
-make book-add               # Add a new book (edit Makefile variables to change default values)
-make book-list              # List all books
-make book-summary           # Show reading summary
-make book-mark-read         # Mark a book as read (edit ID in Makefile)
-make book-log               # Log a reading session (edit ID, MINUTES, NOTES in Makefile)
-make book-cli-verbose       # Run CLI with verbose logging
+make book-add          # Add a new book (Default command: make book-add TITLE="Title" AUTHOR="Author" GENRE="Genre" RATING=[Integer from 1 to 5])
+make book-list         # List all books
+make book-summary      # Show reading summary
+make book-mark-read    # Mark a book as read (edit ID in Makefile)
+make book-log          # Log a reading session (edit ID, MINUTES, NOTES in Makefile)
+make book-cli-verbose  # Run CLI with verbose logging
 ```
 
 You can also use Docker manually:

@@ -1,25 +1,20 @@
-<!-- books/templates/books/book_list.html -->
- <!DOCTYPE html>
- <html>
-<head>
-    <title>Book List</title>
-</head>
-<body>
-    <h1>📚 Your Books 📚</h1>
-    {% if object_list %}
-        <ul>
-            {% for book in object_list %}
-                <li>
-                    <a href ="{% url 'book-detail' book.id %}">
-                        <strong>{{ book.title }}</strong> 
-                    </a> by {{ book.author }} ({{ book.get_status_display }})
-                </li>
-                <p><a href="{% url 'book-add' %}">➕ Add another book</a></p>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No books yet!</p>
-        <p><a href="{% url 'book-add' %}">➕ Add your first book</a></p>
-    {% endif %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>📚 Your Books 📚</h1>
+{% if object_list %}
+    <ul>
+        {% for book in object_list %}
+            <li>
+                <a href="{% url 'book-detail' book.id %}">
+                    <strong>{{ book.title }}</strong>
+                </a> by {{ book.author }} ({{ book.get_status_display }})
+            </li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'book-add' %}">➕ Add another book</a></p>
+{% else %}
+    <p>No books yet!</p>
+    <p><a href="{% url 'book-add' %}">➕ Add your first book</a></p>
+{% endif %}
+{% endblock %}

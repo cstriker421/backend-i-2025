@@ -6,6 +6,7 @@ import logging
 
 from datetime import date
 from django.db import models
+from django.core.exceptions import ValidationError
 
 # Logging Setup
 logger = logging.getLogger(__name__)
@@ -49,13 +50,27 @@ def add_book(
     """    
     Add a new book to your reading list.
     """
-    book = Book.objects.create(
-        title=title,
-        author=author,
-        genre=genre,
-        status=status,
-        rating=rating,
-    )
+    valid_statuses = [choice[0] for choice in Book._meta.get_field('status').choices]
+    if status not in valid_statuses:
+        typer.echo(styled(
+            f"❌ Invalid status '{status}'. Choose from: {', '.join(valid_statuses)}.",
+            typer.colors.RED,
+            True
+        ))
+        raise typer.Exit(code=1)
+
+    try:
+        book = Book.objects.create(
+            title=title,
+            author=author,
+            genre=genre,
+            status=status,
+            rating=rating,
+        )
+    except ValidationError as e:
+        typer.echo(styled(f"❌ Error: {e}", typer.colors.RED, True))
+        raise typer.Exit(code=1)
+
     logger.info(f"Added book: {book.title} by {book.author}")
     typer.echo(styled("✅ Book added successfully!", typer.colors.GREEN, bold=True))
     typer.echo(f"📘 {styled(book.title, typer.colors.CYAN)} by {book.author}")
@@ -84,7 +99,7 @@ def list_books(status: str = typer.Option(None, help="Filter books by status (to
 
         typer.echo(
             f"[{book.id}] {styled(book.title, typer.colors.CYAN, True)} by {book.author} — "
-            f"Status: {styled(book.get_status_disply(), status_color)} | "
+            f"Status: {styled(book.get_status_display(), status_color)} | "
             f"Genre: {book.genre or 'N/A'}"
         )
 
